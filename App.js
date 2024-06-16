@@ -12,9 +12,11 @@ export default function AnimatedStyleUpdateExample(props) {
 
   const {width, height} = useWindowDimensions()
 
+  const edge = Math.min(height, width)
+
   const boxes = useMemo(() => {
-    return Array(12).fill(0).map((_, index) => <View style={styles.box(Math.min(height, width, 300), index)} key={index} />)
-  })
+    return Array(12).fill(0).map((_, index) => <View style={styles.box(edge, index)} key={index} />)
+  }, [])
 
   const config = {
     duration: 500,
@@ -29,15 +31,15 @@ export default function AnimatedStyleUpdateExample(props) {
 
   return (
     <View style={styles.main}>
-      <View style={styles.ground(Math.min(height, width, 300))} >
+      <View style={styles.ground(edge)} >
         {boxes}
 
-        <View style={styles.bigCenterCircle(Math.min(height, width, 300))} />
-        <View style={styles.akrep(Math.min(height, width, 300))} />
-        <View style={styles.midCenterCircle(Math.min(height, width, 300))} />
-        <View style={styles.yelkovan(Math.min(height, width, 300))} />
-        <View style={styles.smallCenterCircle(Math.min(height, width, 300))} />
-        <View style={styles.saniye(Math.min(height, width, 300))} />
+        <View style={styles.bigCenterCircle(edge)} />
+        <View style={styles.akrep(edge)} />
+        <View style={styles.midCenterCircle(edge)} />
+        <View style={styles.yelkovan(edge)} />
+        <View style={styles.smallCenterCircle(edge)} />
+        <View style={styles.saniye(edge)} />
         
       </View>
       
