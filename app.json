@@ -1,4 +1,8 @@
 {
   "name": "analog-clock",
-  "slug": "analog-clock"
+  "slug": "analog-clock",
+  "icon": "./assets/clock.png",
+  "web" : {
+    "favicon": "./assets/clock.png"
+  }
 }
