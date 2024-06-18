@@ -4,11 +4,15 @@ import Animated, {
   useAnimatedStyle,
   Easing,
 } from "react-native-reanimated";
-import { View, Button, createStyleSheet, useWindowDimensions, StyleSheet } from "react-native";
-import { useMemo } from "react";
+import { View, Button, useWindowDimensions, StyleSheet } from "react-native";
+import { useEffect, useMemo } from "react";
 
 export default function AnimatedStyleUpdateExample(props) {
-  const randomWidth = useSharedValue(10);
+  const hours = useSharedValue((new Date).getHours()*5 + Math.floor((new Date()).getMinutes()/12))
+
+  const minutes = useSharedValue((new Date).getMinutes())
+
+  const seconds = useSharedValue((new Date).getSeconds())
 
   const {width, height} = useWindowDimensions()
 
@@ -18,16 +22,44 @@ export default function AnimatedStyleUpdateExample(props) {
     return Array(12).fill(0).map((_, index) => <View style={styles.box(edge, index)} key={index} />)
   }, [])
 
-  const config = {
-    duration: 500,
-    easing: Easing.bezier(0.5, 0.01, 0, 1),
-  };
-
-  const style = useAnimatedStyle(() => {
+  const hoursStyle = useAnimatedStyle(() => {
     return {
-      width: withTiming(randomWidth.value, config),
+      transform: [{rotate: `${hours.value*6}deg`}],
     };
   });
+
+  const minutesStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${minutes.value*6}deg`}],
+    };
+  });
+
+  const secondsStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{rotate: `${seconds.value*6}deg`}],
+    };
+  });
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const date = new Date()
+
+      hours.value = date.getHours() === 0 && date.getMinutes() === 0 && date.getSeconds() === 0
+        ? withTiming(120, {duration: 50}, () => {hours.value = 0})
+        : withTiming(date.getHours()*5 + Math.floor(date.getMinutes()/12), {duration: 50})
+
+      minutes.value = date.getMinutes() === 0 && date.getSeconds() === 0
+        ? withTiming(60, {duration: 50}, () => {minutes.value = 0})
+        : withTiming(date.getMinutes(), {duration: 50})
+
+      seconds.value = date.getSeconds() === 0 
+        ? withTiming(60, {duration: 50}, () => {seconds.value = 0})
+        : withTiming(date.getSeconds(), {duration: 50})
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <View style={styles.main}>
@@ -35,11 +67,11 @@ export default function AnimatedStyleUpdateExample(props) {
         {boxes}
 
         <View style={styles.bigCenterCircle(edge)} />
-        <View style={styles.akrep(edge)} />
+        <Animated.View style={[styles.akrep(edge), hoursStyle]} />
         <View style={styles.midCenterCircle(edge)} />
-        <View style={styles.yelkovan(edge)} />
+        <Animated.View style={[styles.yelkovan(edge), minutesStyle]} />
         <View style={styles.smallCenterCircle(edge)} />
-        <View style={styles.saniye(edge)} />
+        <Animated.View style={[styles.saniye(edge), secondsStyle]} />
         
       </View>
       
@@ -68,7 +100,9 @@ const styles = StyleSheet.create({
     height: edge/10,
     backgroundColor: '#6A7062',
     transformOrigin: '50% 475%',
-    transform: [{translateX: edge*19/40}, {translateY: edge/40}, {rotate: `${index*30}deg`}],
+    top: edge/40,
+    left: edge*19/40,
+    transform: [{rotate: `${index*30}deg`}],
   }),
 
   bigCenterCircle: (edge) => ({
@@ -79,7 +113,8 @@ const styles = StyleSheet.create({
     borderColor: '#6A7062',
     borderWidth: 1,
     backgroundColor: '#DCE2C8',
-    transform: [{translateX: edge*9/20}, {translateY: edge*9/20}],
+    top: edge*9/20,
+    left: edge*9/20,
   }),
 
   midCenterCircle: (edge) => ({
@@ -90,7 +125,8 @@ const styles = StyleSheet.create({
     borderColor: '#6A7062',
     borderWidth: 1,
     backgroundColor: '#DCE2C8',
-    transform: [{translateX: edge*11/24}, {translateY: edge*11/24}],
+    top: edge*11/24,
+    left: edge*11/24,
   }),
 
   smallCenterCircle: (edge) => ({
@@ -99,7 +135,8 @@ const styles = StyleSheet.create({
     height: edge/24,
     borderRadius: edge/48,
     backgroundColor: '#A41623',
-    transform: [{translateX: edge*23/48}, {translateY: edge*23/48}],
+    top: edge*23/48,
+    left: edge*23/48,
   }),
 
   akrep: (edge) => ({
@@ -108,7 +145,8 @@ const styles = StyleSheet.create({
     height: edge*7/20,
     backgroundColor: '#DCE2C8',
     transformOrigin: '50% 100%',
-    transform: [{translateX: edge*19/40}, {translateY: edge*3/20}, {rotate: '30deg'}],
+    top: edge*3/20,
+    left: edge*19/40,
   }),
 
   yelkovan: (edge) => ({
@@ -117,7 +155,8 @@ const styles = StyleSheet.create({
     height: edge*17/40,
     backgroundColor: '#DCE2C8',
     transformOrigin: '50% 100%',
-    transform: [{translateX: edge*19/40}, {translateY: edge*3/40}, {rotate: '270deg'}],
+    top: edge*3/40,
+    left: edge*19/40,
   }),
 
   saniye: (edge) => ({
@@ -126,6 +165,7 @@ const styles = StyleSheet.create({
     height: edge*3/5,
     backgroundColor: '#A41623',
     transformOrigin: '50% 79%',
-    transform: [{translateX: edge*39/80}, {translateY: edge/40}, {rotate: '120deg'}],
+    top: edge/40,
+    left: edge*39/80,
   })
 })
