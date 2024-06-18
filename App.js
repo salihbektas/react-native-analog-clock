@@ -5,6 +5,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { View, useWindowDimensions, StyleSheet } from "react-native";
 import { useEffect, useMemo } from "react";
+import colors from "./colors";
 
 export default function App() {
   const hours = useSharedValue((new Date).getHours()*5 + Math.floor((new Date()).getMinutes()/12))
@@ -90,14 +91,14 @@ const styles = StyleSheet.create({
     width: edge,
     height: edge,
     borderRadius: edge/2,
-    backgroundColor: '#020202'
+    backgroundColor: colors.black
   }),
 
   box: (edge, index) => ({
     position: 'absolute',
     width : edge/20,
     height: edge/10,
-    backgroundColor: '#6A7062',
+    backgroundColor: colors.gray,
     transformOrigin: '50% 475%',
     top: edge/40,
     left: edge*19/40,
@@ -109,9 +110,9 @@ const styles = StyleSheet.create({
     width : edge/10,
     height: edge/10,
     borderRadius: edge/12,
-    borderColor: '#6A7062',
+    borderColor: colors.gray,
     borderWidth: 1,
-    backgroundColor: '#DCE2C8',
+    backgroundColor: colors.white,
     top: edge*9/20,
     left: edge*9/20,
   }),
@@ -121,9 +122,9 @@ const styles = StyleSheet.create({
     width : edge/12,
     height: edge/12,
     borderRadius: edge/20,
-    borderColor: '#6A7062',
+    borderColor: colors.gray,
     borderWidth: 1,
-    backgroundColor: '#DCE2C8',
+    backgroundColor: colors.white,
     top: edge*11/24,
     left: edge*11/24,
   }),
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     width : edge/24,
     height: edge/24,
     borderRadius: edge/48,
-    backgroundColor: '#A41623',
+    backgroundColor: colors.red,
     top: edge*23/48,
     left: edge*23/48,
   }),
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width : edge/20,
     height: edge*7/20,
-    backgroundColor: '#DCE2C8',
+    backgroundColor: colors.white,
     transformOrigin: '50% 100%',
     top: edge*3/20,
     left: edge*19/40,
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width : edge/20,
     height: edge*17/40,
-    backgroundColor: '#DCE2C8',
+    backgroundColor: colors.white,
     transformOrigin: '50% 100%',
     top: edge*3/40,
     left: edge*19/40,
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width : edge/40,
     height: edge*3/5,
-    backgroundColor: '#A41623',
+    backgroundColor: colors.red,
     transformOrigin: '50% 79%',
     top: edge/40,
     left: edge*39/80,
