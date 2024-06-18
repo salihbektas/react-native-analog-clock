@@ -2,12 +2,11 @@ import Animated, {
   useSharedValue,
   withTiming,
   useAnimatedStyle,
-  Easing,
 } from "react-native-reanimated";
-import { View, Button, useWindowDimensions, StyleSheet } from "react-native";
+import { View, useWindowDimensions, StyleSheet } from "react-native";
 import { useEffect, useMemo } from "react";
 
-export default function AnimatedStyleUpdateExample(props) {
+export default function App() {
   const hours = useSharedValue((new Date).getHours()*5 + Math.floor((new Date()).getMinutes()/12))
 
   const minutes = useSharedValue((new Date).getMinutes())
